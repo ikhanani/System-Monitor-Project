@@ -7,6 +7,16 @@ class Processor {
 
   // TODO: Declare any necessary private members
  private:
+    int user;
+    int nice;
+    int system;
+    int idle;
+    int iowait;
+    int irq;
+    int softirq;
+    int steal;
+    int guest;
+    int guest_nice;
 };
 
 #endif
