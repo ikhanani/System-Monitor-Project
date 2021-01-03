@@ -36,15 +36,15 @@ string LinuxParser::OperatingSystem() {
 
 // DONE: An example of how to read data from the filesystem
 string LinuxParser::Kernel() {
-  string os, kernel;
+  string os, kernel, version;
   string line;
   std::ifstream stream(kProcDirectory + kVersionFilename);
   if (stream.is_open()) {
     std::getline(stream, line);
     std::istringstream linestream(line);
-    linestream >> os >> kernel;
+    linestream >> os >> kernel >> version;
   }
-  return kernel;
+  return version;
 }
 
 // BONUS: Update this to use std::filesystem
@@ -72,8 +72,8 @@ float LinuxParser::MemoryUtilization() {
   string line;
   string key;
   string value;
-  double MemTotal;
-  double MemFree;
+  double MemTotal = 0.0;
+  double MemFree = 0.0;
 
   std::ifstream filestream(kProcDirectory + kMeminfoFilename);
   if (filestream.is_open()) {
@@ -108,6 +108,7 @@ long LinuxParser::UpTime() {
     //std::cout << std::stol(key) << "\n";
     return std::stol(key);
   }
+  return 0;
 
   }
 
@@ -137,8 +138,9 @@ long LinuxParser::ActiveJiffies(int pid) {
       }
     }
     
-  return result;
+  
    }
+   return result;
 }
 
 // TODO: Read and return the number of active jiffies for the system
@@ -182,7 +184,8 @@ vector<string> LinuxParser::CpuUtilization() {
       }
     }
   
-  return result; }
+   }
+   return result;
 }
 
 // TODO: Read and return the total number of processes
@@ -190,7 +193,7 @@ int LinuxParser::TotalProcesses() {
   string line;
   string key;
   string value;
-  int Total;
+  int Total = 0;
 
   std::ifstream filestream(kProcDirectory + kStatFilename);
   if (filestream.is_open()) {
@@ -217,7 +220,7 @@ int LinuxParser::RunningProcesses() {
   string line;
   string key;
   string value;
-  int Total;
+  int Total = 0;
 
   std::ifstream filestream(kProcDirectory + kStatFilename);
   if (filestream.is_open()) {
@@ -253,8 +256,9 @@ string LinuxParser::Command(int pid) {
       //std::istringstream linestream(line);
       result = line;
     }
-  return result;
+  
    }
+   return result;
    
 }
 
@@ -280,7 +284,8 @@ string LinuxParser::Ram(int pid) {
       }
     }
 
-  return result; }
+   }
+   return result;
   
 }
 
@@ -306,7 +311,8 @@ string LinuxParser::Uid(int pid) {
       }
     }
 
-  return result; }
+   }
+   return result;
   
 }
 
@@ -334,7 +340,8 @@ string LinuxParser::User(int pid) {
       }
     }
 
-  return result; }
+   }
+   return result;
   }
 
 // TODO: Read and return the uptime of a process
@@ -343,7 +350,7 @@ long LinuxParser::UpTime(int pid) {
   string line;
   //string key;
   string value;
-  long result;
+  long result = 0;
 
   std::ifstream filestream(kProcDirectory + std::to_string(pid) + kStatFilename);
   if (filestream.is_open()) {
@@ -360,6 +367,6 @@ long LinuxParser::UpTime(int pid) {
       }
     }
     
-  return LinuxParser::UpTime() - result/sysconf(_SC_CLK_TCK); }
-  
+   }
+  return LinuxParser::UpTime() - result/sysconf(_SC_CLK_TCK);
 }
